@@ -2,30 +2,31 @@ import React from 'react';
 import type { HorizontalItems, VerticalItems } from './types/dataIn';
 import HorizontalScreen from './screen/Horizontal/HorizontalScreen';
 import VerticalScreen from './screen/Vertical/VerticalScreen';
-import type { ItemData } from './types';
+import type { ItemData, sampleDataOut } from './types';
 import { View } from 'react-native';
 type Props = {
   dataLoad: ItemData;
 
   dataIn:
     | ({ type: 'horizontal' } & HorizontalItems)
-    | {type: 'vertical' & VerticalItems };
+    | ({ type: 'vertical' } & VerticalItems);
 
-  dataOut?: (value: any) => void;
+  dataOut?: { data: (value: any) => void } | any;
 };
 
-const testMAPP = ({ dataLoad, dataIn, }: Props) => {
+const testMAPP = ({ dataLoad, dataIn, dataOut }: Props) => {
+  const { data } = dataOut;
+  const test = (fruits: any) => {
+    data(fruits);
+  };
   if (dataIn.type === 'horizontal') {
     return (
       <View>
         <HorizontalScreen
           dataIn={dataIn}
           dataLoad={dataLoad} //"data":dataLoad
-          dataOut={function (): void {
-            throw new Error('error');
-          }}
+          dataOut={(value) => test(value)}
         />
-        
       </View>
     );
   } else if (dataIn.type === 'vertical') {
@@ -33,11 +34,9 @@ const testMAPP = ({ dataLoad, dataIn, }: Props) => {
       <VerticalScreen
         dataIn={dataIn}
         dataLoad={dataLoad} //"data":dataLoad
-        dataOut={function (): void {
-          throw new Error('error');
-        }}
+        dataOut={(value) => test(value)}
       />
-      )
+    );
   } else {
     return <></>;
   }

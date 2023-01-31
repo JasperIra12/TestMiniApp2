@@ -1,16 +1,23 @@
 import React from 'react';
-import { Text, StyleSheet, TouchableOpacity, View, Image } from 'react-native';
+import { Text, StyleSheet, TouchableOpacity, View, Image, Modal } from 'react-native';
 import type { VerticalItems, ItemData } from 'src/types';
 import _ from 'lodash';
+import useViewModel from '../useViewModel';
+
 
 type Props = {
   dataLoad: ItemData;
   dataIn: VerticalItems;
-  dataOut: any;
+  dataOut: (value: string) => void;
 };
 
-const VerticalScreen = ({ dataLoad, dataIn, dataOut }: Props) => {
-  console.log(dataIn);
+const VerticalScreen = ({ dataLoad, dataIn }: Props) => {
+  const {
+    setIsVisible,
+    isVisible,
+    item,
+    dataOutTest
+  } = useViewModel();
   return (
     <>
       <View style={[styles.container,dataIn.verticalContainerStyle]}>
@@ -26,9 +33,10 @@ const VerticalScreen = ({ dataLoad, dataIn, dataOut }: Props) => {
         }}
       >
         {dataLoad &&
-          _.map(dataLoad, (item, i) => (
+          _.map(dataLoad, (item :any , i :any) => (
             <TouchableOpacity
               key={i}
+              onPress={() => dataOutTest(item)}
               style={[styles.ButtonWrap, dataIn.verticalTextStyle]}
             >
               <Text style={[styles.Title, dataIn.verticalButtonTextTitle]}>
@@ -43,7 +51,27 @@ const VerticalScreen = ({ dataLoad, dataIn, dataOut }: Props) => {
               />
             </TouchableOpacity>
           ))}
+           
       </View>
+      <Modal animationType="slide" visible={isVisible}>
+        <View style={{ backgroundColor: '#F1F1F1', flex: 1, padding: 20 }}>
+          <TouchableOpacity onPress={() => setIsVisible(false)}>
+            <Text style={{ textAlign: 'right', fontSize: 25, color: 'gray' }}>
+              x
+            </Text>
+          </TouchableOpacity>
+          <Text style={[styles.ModalTitle,dataIn.verticalModalTitle]}> {item.itemName}</Text>
+          <Text style={[styles.price, dataIn.verticalModalPrice]}>Price: ${item.price}</Text>
+          <Image
+            resizeMode="cover"
+            source={{ uri: item.image }}
+            style={{ width: '100%', height: '30%' }}
+            borderRadius={5}
+          />
+          <Text style={[styles.description,dataIn.verticalModalDescription]}>{item.description}</Text>
+
+        </View>
+      </Modal>
     </>
   );
 };
@@ -77,4 +105,20 @@ const styles = StyleSheet.create({
     fontSize: 20,
     color: 'purple',
   },
+  ModalTitle:{
+    fontSize: 25,
+    fontWeight: '600',
+    textAlign:'center'
+  },
+  price:{
+    color:'gray',
+    paddingTop:3,
+    paddingBottom:10
+
+  },
+  description:{
+    color:'gray',
+    fontSize:15,
+    paddingTop:20
+  }
 });

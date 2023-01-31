@@ -2,7 +2,8 @@
 export type SampleData = {
     itemName: string;
     price: number
-    image: number | string;
+    image: string;
+    description:string
   };
 
 export type ItemData = SampleData[]
