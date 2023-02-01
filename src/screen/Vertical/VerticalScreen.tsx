@@ -5,6 +5,8 @@ import {
   TouchableOpacity,
   View,
   Image,
+  FlatList,
+  Dimensions,
 } from 'react-native';
 import type { VerticalItems, ItemData, sampleDataOut } from 'src/types';
 import _ from 'lodash';
@@ -15,13 +17,12 @@ type Props = {
   dataIn: VerticalItems;
   dataOut: sampleDataOut;
 };
-
+const width = Dimensions.get('screen').width;
 const VerticalScreen = ({ dataLoad, dataIn, dataOut }: Props) => {
   console.log('test', dataLoad);
-  const {dataOutTest} =
-    useViewModel({
-      dataOut,
-    });
+  const { dataOutTest } = useViewModel({
+    dataOut,
+  });
   return (
     <>
       <View style={[styles.container, dataIn.verticalContainerStyle]}>
@@ -29,33 +30,28 @@ const VerticalScreen = ({ dataLoad, dataIn, dataOut }: Props) => {
           {dataIn.text}
         </Text>
       </View>
-      <View
-        style={{
-          flexDirection: 'row',
-          flexWrap: 'wrap',
-          justifyContent: 'center',
-        }}
-      >
-        {dataLoad &&
-          _.map(dataLoad, (item: any, i: any) => (
-            <TouchableOpacity
-              key={i}
-              onPress={() => dataOutTest(item)}
-              style={[styles.ButtonWrap, dataIn.verticalTextStyle]}
-            >
-              <Text style={[styles.Title, dataIn.verticalButtonTextTitle]}>
-                {item.itemName}
-              </Text>
-              <Text style={dataIn.verticalButtonTextprice}>${item.price}</Text>
-              <Image
-                resizeMode="cover"
-                source={{ uri: item.image }}
-                style={{ width: '90%', height: '60%' }}
-                borderRadius={10}
-              />
-            </TouchableOpacity>
-          ))}
-      </View>
+      <FlatList
+        data={dataLoad}
+        renderItem={({ item, index }) => (
+          <TouchableOpacity
+            key={index}
+            onPress={() => dataOutTest(item)}
+            style={[styles.ButtonWrap, dataIn.verticalTextStyle]}
+          >
+            <Text style={[styles.Title, dataIn.verticalButtonTextTitle]}>
+              {item.itemName}
+            </Text>
+            <Text style={dataIn.verticalButtonTextprice}>${item.price}</Text>
+            <Image
+              resizeMode="cover"
+              source={{ uri: item.image }}
+              style={{ width: '90%', height: '60%' }}
+              borderRadius={10}
+            />
+          </TouchableOpacity>
+        )}
+        numColumns={3}
+      />
     </>
   );
 };
@@ -71,9 +67,9 @@ const styles = StyleSheet.create({
     fontWeight: '600',
   },
   ButtonWrap: {
-    marginHorizontal: 5,
+    marginHorizontal: 3,
     backgroundColor: 'white',
-    width: 95,
+    width: width / 3 - 20,
     height: 130,
     borderRadius: 15,
     paddingVertical: 10,

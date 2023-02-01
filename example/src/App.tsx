@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import * as React from 'react';
-import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { TestMAPP } from 'test-mini-app';
 
 export default function App() {
@@ -89,7 +89,6 @@ export default function App() {
         dataLoad={dummyData}
         dataOut={(value) => dataOutTest(value)}
       />
-      <ScrollView>
       {screenType=='horizontal'?
       <TestMAPP
         dataIn={{
@@ -108,7 +107,6 @@ export default function App() {
       dataLoad={dataOutData}
       // dataOut={(value) => setDataOutData(value)}
     />}
-    </ScrollView>
       <TouchableOpacity
         style={styles.ResetButton}
         onPress={() => setDataOutData(new Array())}

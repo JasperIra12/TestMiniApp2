@@ -4,7 +4,7 @@ import {
   TouchableOpacity,
   StyleSheet,
   View,
-  ScrollView,
+  FlatList,
   Image,
 } from 'react-native';
 import type { HorizontalItems } from 'src/types';
@@ -20,9 +20,28 @@ type Props = {
 };
 
 const HorizontalScreen = ({ dataLoad, dataIn, dataOut }: Props) => {
-  const {dataOutTest,} = useViewModel({
+  const { dataOutTest } = useViewModel({
     dataOut,
   });
+
+  const renderItem = ({ item, index }: any) => (
+    <TouchableOpacity
+      key={index}
+      onPress={() => dataOutTest(item)}
+      style={[styles.ButtonWrap, dataIn.horizontalButtonStyle]}
+    >
+      <Text style={[styles.Title, dataIn.horizontalButtonTextTitle]}>
+        {item.itemName}
+      </Text>
+      <Text style={dataIn.horizontalButtonTextprice}>${item.price}</Text>
+      <Image
+        resizeMode="cover"
+        source={{ uri: item.image }}
+        style={{ width: '90%', height: '60%' }}
+        borderRadius={5}
+      />
+    </TouchableOpacity>
+  );
 
   return (
     <>
@@ -31,29 +50,11 @@ const HorizontalScreen = ({ dataLoad, dataIn, dataOut }: Props) => {
           {dataIn.text}
         </Text>
       </View>
-      <ScrollView horizontal={true}>
-        {dataLoad &&
-          _.map(dataLoad, (item, i) => (
-            <TouchableOpacity
-              key={i}
-              onPress={() => dataOutTest(item) }
-              style={[styles.ButtonWrap, dataIn.horizontalButtonStyle]}
-            >
-              <Text style={[styles.Title, dataIn.horizontalButtonTextTitle]}>
-                {item.itemName}
-              </Text>
-              <Text style={dataIn.horizontalButtonTextprice}>
-                ${item.price}
-              </Text>
-              <Image
-                resizeMode="cover"
-                source={{ uri: item.image }}
-                style={{ width: '90%', height: '60%' }}
-                borderRadius={5}
-              />
-            </TouchableOpacity>
-          ))}
-      </ScrollView>
+      <FlatList
+        horizontal={true}
+        data={dataLoad}
+        renderItem={renderItem}
+      />
     </>
   );
 };
@@ -62,7 +63,6 @@ export default HorizontalScreen;
 const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
   },
   ViewTitle: {
     fontSize: 25,
@@ -110,6 +110,6 @@ const styles = StyleSheet.create({
     width: 80,
     height: 40,
     alignSelf: 'center',
-    borderRadius:20
+    borderRadius: 20,
   },
 });
