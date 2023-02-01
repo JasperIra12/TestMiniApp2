@@ -7,9 +7,6 @@ export type HorizontalItems = {
   horizontalButtonStyle?: StyleProp<ViewStyle>;
   horizontalButtonTextTitle?: StyleProp<TextStyle>
   horizontalButtonTextprice?: StyleProp<TextStyle>;
-  horizontalModalTitle?: StyleProp<TextStyle>
-  horizontalModalPrice?: StyleProp<TextStyle>
-  horizontalModalDescription?: StyleProp<TextStyle>
 };
 
 export type VerticalItems = {
@@ -19,7 +16,4 @@ export type VerticalItems = {
   verticalButtonStyle?: StyleProp<ViewStyle>;
   verticalButtonTextTitle?: StyleProp<TextStyle>
   verticalButtonTextprice?: StyleProp<TextStyle>;
-  verticalModalTitle?: StyleProp<TextStyle>
-  verticalModalPrice?: StyleProp<TextStyle>
-  verticalModalDescription?: StyleProp<TextStyle>
 };

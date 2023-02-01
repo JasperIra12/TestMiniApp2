@@ -83,8 +83,6 @@ export default function App() {
           text: screenTitle,
           horizontalTextStyle: { color: 'purple' },
           verticalTextStyle: { color: 'purple' },
-          horizontalModalTitle: { color: 'purple' },
-          verticalModalTitle: { color: 'purple' },
         }}
         dataLoad={dummyData}
         dataOut={(value) => dataOutTest(value)}
