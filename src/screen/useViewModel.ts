@@ -7,19 +7,15 @@ type Props = {
 
 const useViewModel = ({dataOut}: Props) => {
 
-    const [isVisible, setIsVisible] = useState(false);
     const [item, setItem] = useState<any | {}>({});
 
     const dataOutTest = (value: any) => {
-      setIsVisible(true);
       setItem(value);
       dataOut(value);
       
     };
 
     return{
-        setIsVisible,
-        isVisible,
         item,
         setItem,
         dataOutTest,
