@@ -5,7 +5,6 @@ import {
   TouchableOpacity,
   View,
   Image,
-  Modal,
 } from 'react-native';
 import type { VerticalItems, ItemData, sampleDataOut } from 'src/types';
 import _ from 'lodash';
@@ -19,7 +18,7 @@ type Props = {
 
 const VerticalScreen = ({ dataLoad, dataIn, dataOut }: Props) => {
   console.log('test', dataLoad);
-  const { setIsVisible, isVisible, item, dataOutTest, onPressAddToCart } =
+  const {dataOutTest} =
     useViewModel({
       dataOut,
     });
@@ -57,39 +56,6 @@ const VerticalScreen = ({ dataLoad, dataIn, dataOut }: Props) => {
             </TouchableOpacity>
           ))}
       </View>
-      <Modal animationType="slide" visible={isVisible}>
-        <View style={{ backgroundColor: '#F1F1F1', flex: 1, padding: 20 }}>
-          <View>
-            <TouchableOpacity onPress={() => setIsVisible(false)}>
-              <Text style={{ textAlign: 'right', fontSize: 25, color: 'gray' }}>
-                x
-              </Text>
-            </TouchableOpacity>
-            <Text style={[styles.ModalTitle, dataIn.verticalModalTitle]}>
-              {item.itemName}
-            </Text>
-
-            <Text style={[styles.price, dataIn.verticalModalPrice]}>
-              Price: ${item.price}
-            </Text>
-            <Image
-              resizeMode="cover"
-              source={{ uri: item.image }}
-              style={{ width: '100%', height: '30%' }}
-              borderRadius={5}
-            />
-            <Text style={[styles.description, dataIn.verticalModalDescription]}>
-              {item.description}
-            </Text>
-          </View>
-          <TouchableOpacity
-            style={styles.AddButton}
-            onPress={() => onPressAddToCart(item)}
-          >
-            <Text style={{ fontWeight: '500' }}>Add to Cart</Text>
-          </TouchableOpacity>
-        </View>
-      </Modal>
     </>
   );
 };

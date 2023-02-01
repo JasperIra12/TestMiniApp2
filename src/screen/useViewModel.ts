@@ -13,12 +13,9 @@ const useViewModel = ({dataOut}: Props) => {
     const dataOutTest = (value: any) => {
       setIsVisible(true);
       setItem(value);
+      dataOut(value);
       
     };
-    const onPressAddToCart = (value:any) => {
-      dataOut(value);
-      setIsVisible(false);
-    }
 
     return{
         setIsVisible,
@@ -26,7 +23,7 @@ const useViewModel = ({dataOut}: Props) => {
         item,
         setItem,
         dataOutTest,
-        onPressAddToCart
+        
 
 
     }
