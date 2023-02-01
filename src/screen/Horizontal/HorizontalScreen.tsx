@@ -12,20 +12,18 @@ import type { HorizontalItems } from 'src/types';
 import type { ItemData } from '../../types';
 import _ from 'lodash';
 import useViewModel from '../useViewModel';
+import type { sampleDataOut } from 'src/types';
 
 type Props = {
   dataLoad: ItemData;
   dataIn: HorizontalItems;
-  dataOut: (value: string) => void;
+  dataOut: sampleDataOut;
 };
 
-const HorizontalScreen = ({ dataLoad, dataIn}: Props) => {
-  const {
-    setIsVisible,
-    isVisible,
-    item,
-    dataOutTest
-  } = useViewModel();
+const HorizontalScreen = ({ dataLoad, dataIn, dataOut }: Props) => {
+  const { setIsVisible, isVisible, item, dataOutTest, onPressAddToCart} = useViewModel({
+    dataOut,
+  });
 
   return (
     <>
@@ -39,7 +37,7 @@ const HorizontalScreen = ({ dataLoad, dataIn}: Props) => {
           _.map(dataLoad, (item, i) => (
             <TouchableOpacity
               key={i}
-              onPress={() => dataOutTest(item)}
+              onPress={() => dataOutTest(item) }
               style={[styles.ButtonWrap, dataIn.horizontalButtonStyle]}
             >
               <Text style={[styles.Title, dataIn.horizontalButtonTextTitle]}>
@@ -59,21 +57,34 @@ const HorizontalScreen = ({ dataLoad, dataIn}: Props) => {
       </ScrollView>
       <Modal animationType="slide" visible={isVisible}>
         <View style={{ backgroundColor: '#F1F1F1', flex: 1, padding: 20 }}>
-          <TouchableOpacity onPress={() => setIsVisible(false)}>
-            <Text style={{ textAlign: 'right', fontSize: 25, color: 'gray' }}>
-              x
+          <View>
+            <TouchableOpacity onPress={() => setIsVisible(false)}>
+              <Text style={{ textAlign: 'right', fontSize: 25, color: 'gray' }}>
+                x
+              </Text>
+            </TouchableOpacity>
+            <Text style={[styles.ModalTitle, dataIn.horizontalModalTitle]}>
+              {item.itemName}
             </Text>
-          </TouchableOpacity>
-          <Text style={[styles.ModalTitle, dataIn.horizontalModalTitle]}> {item.itemName}</Text>
-          <Text style={[styles.price, dataIn.horizontalModalPrice]}>Price: ${item.price}</Text>
-          <Image
-            resizeMode="cover"
-            source={{ uri: item.image }}
-            style={{ width: '100%', height: '30%' }}
-            borderRadius={5}
-          />
-          <Text style={[styles.description,dataIn.horizontalModalDescription]}>{item.description}</Text>
+            <Text style={[styles.price, dataIn.horizontalModalPrice]}>
+              Price: ${item.price}
+            </Text>
+            <Image
+              resizeMode="cover"
+              source={{ uri: item.image }}
+              style={{ width: '100%', height: '30%' }}
+              borderRadius={5}
+            />
+            <Text
+              style={[styles.description, dataIn.horizontalModalDescription]}
+            >
+              {item.description}
+            </Text>
+          </View>
 
+          <TouchableOpacity style={styles.AddButton} onPress={()=> onPressAddToCart(item)}>
+            <Text style={{fontWeight:'500'}}>Add to Cart</Text>
+          </TouchableOpacity>
         </View>
       </Modal>
     </>
@@ -106,24 +117,32 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.4,
     marginBottom: 10,
   },
-  ModalTitle:{
+  ModalTitle: {
     fontSize: 25,
     fontWeight: '600',
-    textAlign:'center'
+    textAlign: 'center',
   },
   Title: {
     fontSize: 20,
     color: 'purple',
   },
-  price:{
-    color:'gray',
-    paddingTop:3,
-    paddingBottom:10
-
+  price: {
+    color: 'gray',
+    paddingTop: 3,
+    paddingBottom: 10,
   },
-  description:{
-    color:'gray',
-    fontSize:15,
-    paddingTop:20
-  }
+  description: {
+    color: 'gray',
+    fontSize: 15,
+    paddingTop: 20,
+  },
+  AddButton: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: 'pink',
+    width: 80,
+    height: 40,
+    alignSelf: 'center',
+    borderRadius:20
+  },
 });

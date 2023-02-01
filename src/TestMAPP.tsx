@@ -11,21 +11,18 @@ type Props = {
     | ({ type: 'horizontal' } & HorizontalItems)
     | ({ type: 'vertical' } & VerticalItems);
 
-  dataOut?: { data: (value: any) => void } | any;
+  dataOut?: (value: any) => void;
 };
 
 const testMAPP = ({ dataLoad, dataIn, dataOut }: Props) => {
-  const { data } = dataOut;
-  const test = (fruits: any) => {
-    data(fruits);
-  };
+
   if (dataIn.type === 'horizontal') {
     return (
       <View>
         <HorizontalScreen
           dataIn={dataIn}
           dataLoad={dataLoad} //"data":dataLoad
-          dataOut={(value) => test(value)}
+          dataOut={dataOut ? dataOut: () => {}}
         />
       </View>
     );
@@ -34,7 +31,7 @@ const testMAPP = ({ dataLoad, dataIn, dataOut }: Props) => {
       <VerticalScreen
         dataIn={dataIn}
         dataLoad={dataLoad} //"data":dataLoad
-        dataOut={(value) => test(value)}
+        dataOut={dataOut ? dataOut: () => {}}
       />
     );
   } else {
