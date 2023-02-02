@@ -1,3 +1,3 @@
-import type { ItemData } from "./dataLoad";
+import type { ItemDataLoad } from "./dataLoad";
 
-export type sampleDataOut = (value: ItemData) => void;
+export type SampleDataLoadOut = (value: ItemDataLoad) => void; 

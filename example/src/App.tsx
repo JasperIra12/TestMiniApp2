@@ -54,64 +54,36 @@ export default function App() {
         'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industries standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.',
     },
   ];
-  const [screenType, setScreenType] = useState<string | any>('horizontal');
-  const [screenTitle, SetscreenTitle] = useState<string>('Horizontal View');
+
   const [dataOutData, setDataOutData] = useState<any>([]);
-
-  const ChangeType = () => {
-    if (screenType === 'horizontal') {
-      setScreenType('vertical');
-      SetscreenTitle('Vertical View');
-    } else {
-      setScreenType('horizontal');
-      SetscreenTitle('Horizontal View');
-    }
-  };
-
   const dataOutTest = (value: any) => {
     setDataOutData([...dataOutData, value]);
-    console.log(dataOutData);
+    dataOutData;
   };
   return (
     <View style={styles.container}>
-      <TouchableOpacity style={styles.changeView} onPress={() => ChangeType()}>
-        <Text>click me</Text>
-      </TouchableOpacity>
       <TestMAPP
         dataIn={{
-          type: screenType,
-          text: screenTitle,
+          type: 'horizontal',
+          text: 'Horizontal View',
           horizontalTextStyle: { color: 'purple' },
-          verticalTextStyle: { color: 'purple' },
         }}
         dataLoad={dummyData}
         dataOut={(value) => dataOutTest(value)}
       />
-      {screenType=='horizontal'?
       <TestMAPP
         dataIn={{
           type: 'vertical',
           text: 'Selected',
         }}
         dataLoad={dataOutData}
-        // dataOut={(value) => setDataOutData(value)}
+        dataOut={(value) => console.log(value)}
       />
-      :
-      <TestMAPP
-      dataIn={{
-        type: 'horizontal',
-        text: 'Selected',
-      }}
-      dataLoad={dataOutData}
-      // dataOut={(value) => setDataOutData(value)}
-    />}
       <TouchableOpacity
-        style={styles.ResetButton}
+        style={styles.resetButton}
         onPress={() => setDataOutData(new Array())}
       >
-        <Text style={styles.ResetButtonText}>
-          Reset Items
-        </Text>
+        <Text style={styles.resetButtonText}>Reset Items</Text>
       </TouchableOpacity>
     </View>
   );
@@ -122,13 +94,7 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 20,
   },
-  changeView: {
-    justifyContent: 'flex-end',
-    position: 'absolute',
-    right: 15,
-    paddingVertical: 15,
-  },
-  ResetButton:{
+  resetButton: {
     backgroundColor: '#F9F9',
     alignSelf: 'center',
     alignItems: 'center',
@@ -136,9 +102,9 @@ const styles = StyleSheet.create({
     borderRadius: 15,
     marginTop: 20,
   },
-  ResetButtonText:{
-    fontWeight:'600',
-    fontSize:15,
-    color:'purple'
-  }
+  resetButtonText: {
+    fontWeight: '600',
+    fontSize: 15,
+    color: 'purple',
+  },
 });

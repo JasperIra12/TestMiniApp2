@@ -1,3 +1,1 @@
-export {
-  default as TestMAPP
-}from './TestMAPP'
+export { default as TestMAPP } from './TestMAPP';

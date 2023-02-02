@@ -7,30 +7,25 @@ import {
   FlatList,
   Image,
 } from 'react-native';
-import type { HorizontalItems } from 'src/types';
-import type { ItemData } from '../../types';
+import type { HorizontalItemsDataIn } from 'src/types';
+import type { ItemDataLoad } from '../../types';
 import _ from 'lodash';
-import useViewModel from '../useViewModel';
-import type { sampleDataOut } from 'src/types';
+import type { SampleDataLoadOut } from 'src/types';
 
 type Props = {
-  dataLoad: ItemData;
-  dataIn: HorizontalItems;
-  dataOut: sampleDataOut;
+  dataLoad: ItemDataLoad;
+  dataIn: HorizontalItemsDataIn;
+  dataOut: SampleDataLoadOut;
 };
 
 const HorizontalScreen = ({ dataLoad, dataIn, dataOut }: Props) => {
-  const { dataOutTest } = useViewModel({
-    dataOut,
-  });
-
   const renderItem = ({ item, index }: any) => (
     <TouchableOpacity
       key={index}
-      onPress={() => dataOutTest(item)}
-      style={[styles.ButtonWrap, dataIn.horizontalButtonStyle]}
+      onPress={() => dataOut(item)}
+      style={[styles.buttonWrap, dataIn.horizontalButtonStyle]}
     >
-      <Text style={[styles.Title, dataIn.horizontalButtonTextTitle]}>
+      <Text style={[styles.title, dataIn.horizontalButtonTextTitle]}>
         {item.itemName}
       </Text>
       <Text style={dataIn.horizontalButtonTextprice}>${item.price}</Text>
@@ -46,29 +41,24 @@ const HorizontalScreen = ({ dataLoad, dataIn, dataOut }: Props) => {
   return (
     <>
       <View style={[styles.container, dataIn.horizontalContainerStyle]}>
-        <Text style={[styles.ViewTitle, dataIn.horizontalTextStyle]}>
+        <Text style={[styles.viewTitle, dataIn.horizontalTextStyle]}>
           {dataIn.text}
         </Text>
       </View>
-      <FlatList
-        horizontal={true}
-        data={dataLoad}
-        renderItem={renderItem}
-      />
+      <FlatList horizontal={true} data={dataLoad} renderItem={renderItem} />
     </>
   );
 };
 
-export default HorizontalScreen;
 const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
   },
-  ViewTitle: {
+  viewTitle: {
     fontSize: 25,
     fontWeight: '600',
   },
-  ButtonWrap: {
+  buttonWrap: {
     marginHorizontal: 5,
     backgroundColor: 'white',
     width: 95,
@@ -84,12 +74,12 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.4,
     marginBottom: 10,
   },
-  ModalTitle: {
+  modalTitle: {
     fontSize: 25,
     fontWeight: '600',
     textAlign: 'center',
   },
-  Title: {
+  title: {
     fontSize: 20,
     color: 'purple',
   },
@@ -103,7 +93,7 @@ const styles = StyleSheet.create({
     fontSize: 15,
     paddingTop: 20,
   },
-  AddButton: {
+  addButton: {
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: 'pink',
@@ -113,3 +103,4 @@ const styles = StyleSheet.create({
     borderRadius: 20,
   },
 });
+export default HorizontalScreen;

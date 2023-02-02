@@ -8,37 +8,44 @@ import {
   FlatList,
   Dimensions,
 } from 'react-native';
-import type { VerticalItems, ItemData, sampleDataOut } from 'src/types';
+import type {
+  VerticalItemsDataIn,
+  ItemDataLoad,
+  SampleDataLoadOut,
+} from 'src/types';
 import _ from 'lodash';
-import useViewModel from '../useViewModel';
 
 type Props = {
-  dataLoad: ItemData;
-  dataIn: VerticalItems;
-  dataOut: sampleDataOut;
+  dataLoad: ItemDataLoad;
+  dataIn: VerticalItemsDataIn;
+  dataOut: SampleDataLoadOut;
 };
-const width = Dimensions.get('screen').width;
+
+const height = Dimensions.get('screen').height;
+
+console.log(height * 0.6);
 const VerticalScreen = ({ dataLoad, dataIn, dataOut }: Props) => {
-  console.log('test', dataLoad);
-  const { dataOutTest } = useViewModel({
-    dataOut,
-  });
   return (
-    <>
+    <View style={{ maxHeight: '60%' }}>
       <View style={[styles.container, dataIn.verticalContainerStyle]}>
-        <Text style={[styles.ViewTitle, dataIn.verticalTextStyle]}>
+        <Text style={[styles.viewTitle, dataIn.verticalTextStyle]}>
           {dataIn.text}
         </Text>
       </View>
       <FlatList
+        contentContainerStyle={{
+          flexDirection: 'column',
+          alignContent: 'center',
+          width: '100%',
+        }}
         data={dataLoad}
-        renderItem={({ item, index }) => (
+        renderItem={({ item, index }: any) => (
           <TouchableOpacity
             key={index}
-            onPress={() => dataOutTest(item)}
-            style={[styles.ButtonWrap, dataIn.verticalTextStyle]}
+            onPress={() => dataOut(item)}
+            style={[styles.buttonWrap, dataIn.verticalTextStyle]}
           >
-            <Text style={[styles.Title, dataIn.verticalButtonTextTitle]}>
+            <Text style={[styles.title, dataIn.verticalButtonTextTitle]}>
               {item.itemName}
             </Text>
             <Text style={dataIn.verticalButtonTextprice}>${item.price}</Text>
@@ -50,27 +57,27 @@ const VerticalScreen = ({ dataLoad, dataIn, dataOut }: Props) => {
             />
           </TouchableOpacity>
         )}
-        numColumns={3}
+        numColumns={2}
       />
-    </>
+    </View>
   );
 };
 
-export default VerticalScreen;
 const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
   },
-  ViewTitle: {
+  viewTitle: {
     fontSize: 25,
     fontWeight: '600',
   },
-  ButtonWrap: {
-    marginHorizontal: 3,
+  buttonWrap: {
+    marginHorizontal: '5%',
     backgroundColor: 'white',
-    width: width / 3 - 20,
-    height: 130,
+    maxWidth: '40%',
+    width: '40%',
+    maxHeight: '100%',
+    height: height * 0.25,
     borderRadius: 15,
     paddingVertical: 10,
     justifyContent: 'center',
@@ -81,11 +88,11 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 5 },
     shadowOpacity: 0.9,
   },
-  Title: {
+  title: {
     fontSize: 20,
     color: 'purple',
   },
-  ModalTitle: {
+  modalTitle: {
     fontSize: 25,
     fontWeight: '600',
     textAlign: 'center',
@@ -100,7 +107,7 @@ const styles = StyleSheet.create({
     fontSize: 15,
     paddingTop: 20,
   },
-  AddButton: {
+  addButton: {
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: 'pink',
@@ -110,3 +117,4 @@ const styles = StyleSheet.create({
     borderRadius: 20,
   },
 });
+export default VerticalScreen;

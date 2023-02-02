@@ -1,6 +1,6 @@
 import type { StyleProp, TextStyle, ViewStyle } from 'react-native';
 
-export type HorizontalItems = {
+export type HorizontalItemsDataIn = {
   text?: string;
   horizontalContainerStyle?: StyleProp<ViewStyle>;
   horizontalTextStyle?: StyleProp<TextStyle>;
@@ -9,7 +9,7 @@ export type HorizontalItems = {
   horizontalButtonTextprice?: StyleProp<TextStyle>;
 };
 
-export type VerticalItems = {
+export type VerticalItemsDataIn = {
   text?: string;
   verticalContainerStyle?: StyleProp<ViewStyle>;
   verticalTextStyle?: StyleProp<TextStyle>;
